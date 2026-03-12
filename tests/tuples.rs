@@ -1,5 +1,5 @@
 use cucumber::{given, then, when, World as _};
-use raytracer::tuples::{point, vector, Tuple};
+use raytracer::tuples::{point, vector, color, Tuple};
 use std::collections::HashMap;
 
 #[derive(cucumber::World, Debug, Default)]
@@ -28,6 +28,11 @@ fn make_point(world: &mut World, n: String, x: f64, y: f64, z: f64) {
 #[given(expr = "{word} ← vector\\({float}, {float}, {float})")]
 fn make_vector(world: &mut World, n: String, x: f64, y: f64, z: f64) {
     world.t.insert(n, vector(x, y, z));
+}
+
+#[given(expr = "{word} ← color\\({float}, {float}, {float})")]
+fn make_color(world: &mut World, n: String, r: f64, g: f64, b: f64) {
+    world.t.insert(n, color(r, g, b));
 }
 
 #[then(expr = "{word}.x = {float}")]
@@ -236,6 +241,41 @@ fn check_cross(world: &mut World, n1: String, n2: String, x: f64, y: f64, z: f64
     let t2 = *world.t.get(&n2).unwrap();
 
     assert!(t1.cross(t2) == vector(x, y, z));
+}
+
+#[then(expr = "{word}.{word}\\() = {float}")]
+fn check_color_component(world: &mut World, n: String, c: String, value: f64) {
+    let t = *world.t.get(&n).unwrap();
+
+    match c.as_str() {
+        "red" => assert!(t.red() == value),
+        "green" => assert!(t.green() == value),
+        "blue" => assert!(t.blue() == value),
+        _ => panic!("Unknown color component: {}", c),
+    }
+}
+
+#[then(expr = "{word} + {word} = color\\({float}, {float}, {float})")]
+fn check_color_addition(world: &mut World, n1: String, n2: String, r: f64, g: f64, b: f64) {
+    let c1 = *world.t.get(&n1).unwrap();
+    let c2 = *world.t.get(&n2).unwrap();
+
+    assert!(c1 + c2 == color(r, g, b));
+}
+
+#[then(expr = "{word} * {word} = color\\({float}, {float}, {float})")]
+fn check_color_multiplication(world: &mut World, n1: String, n2: String, r: f64, g: f64, b: f64) {
+    let c1 = *world.t.get(&n1).unwrap();
+
+    if let Some(f) = world.t.get(&n2) {
+        assert!((c1 * *f).approx_eq(&color(r, g, b), 1e-5));
+        return;
+    }
+
+    if let Ok(s) = n2.parse::<f64>() {
+        assert!((c1 * s).approx_eq(&color(r, g, b), 1e-5));
+        return;
+    }
 }
 
 pub async fn test() {
