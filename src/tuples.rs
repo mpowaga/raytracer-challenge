@@ -75,10 +75,10 @@ impl Tuple {
     }
 
     pub fn approx_eq(&self, rhs: &Self, epsilon: f64) -> bool {
-        (self.x - rhs.x).abs() < epsilon &&
-        (self.y - rhs.y).abs() < epsilon &&
-        (self.z - rhs.z).abs() < epsilon &&
-        (self.w - rhs.w).abs() < epsilon
+        (self.x - rhs.x).abs() < epsilon
+            && (self.y - rhs.y).abs() < epsilon
+            && (self.z - rhs.z).abs() < epsilon
+            && (self.w - rhs.w).abs() < epsilon
     }
 }
 

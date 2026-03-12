@@ -1,6 +1,6 @@
-use cucumber::{given, then, when, gherkin::Step, World as _};
-use raytracer::tuples::{color, Tuple};
+use cucumber::{gherkin::Step, given, then, when, World as _};
 use raytracer::canvas::Canvas;
+use raytracer::tuples::{color, Tuple};
 use std::collections::HashMap;
 use std::io::{self, Write};
 
@@ -61,18 +61,18 @@ async fn check_pixel_at(world: &mut World, n: String, x: usize, y: usize, cn: St
 
 #[when(expr = "{word} ← canvas_to_ppm\\({word})")]
 async fn canvas_to_ppm(world: &mut World, n: String, cn: String) {
-  let c = world.c.get(&cn).unwrap();
-  world.p.insert(n, c.to_ppm());
+    let c = world.c.get(&cn).unwrap();
+    world.p.insert(n, c.to_ppm());
 }
 
 #[then(expr = "lines {int}-{int} of {word} are")]
 async fn check_lines(world: &mut World, start: usize, end: usize, n: String, step: &Step) {
-  let ppm = world.p.get(&n).unwrap();
-  let lines: Vec<&str> = ppm.lines().collect();
-  let expected_lines: Vec<&str> = step.docstring().unwrap().lines().skip(1).collect();
-  for (i, line) in (start - 1..end).zip(expected_lines) {
-    assert_eq!(lines[i], line);
-  }
+    let ppm = world.p.get(&n).unwrap();
+    let lines: Vec<&str> = ppm.lines().collect();
+    let expected_lines: Vec<&str> = step.docstring().unwrap().lines().skip(1).collect();
+    for (i, line) in (start - 1..end).zip(expected_lines) {
+        assert_eq!(lines[i], line);
+    }
 }
 
 #[when(expr = "every pixel of {word} is set to color\\({float}, {float}, {float})")]

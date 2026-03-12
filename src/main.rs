@@ -1,8 +1,8 @@
-mod tuples;
 mod canvas;
+mod tuples;
 
-use tuples::{color, Tuple};
 use canvas::Canvas;
+use tuples::{color, Tuple};
 
 fn main() {
     let mut canvas = Canvas::new(100, 100);
@@ -13,7 +13,7 @@ fn main() {
             canvas.write_pixel(x, y, color1);
         }
     }
-    
+
     let ppm = canvas.to_ppm();
 
     std::fs::write("output.ppm", ppm).unwrap();

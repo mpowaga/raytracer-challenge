@@ -1,5 +1,5 @@
-mod tuples;
 mod canvas;
+mod tuples;
 
 #[tokio::main]
 async fn main() -> Result<(), ()> {

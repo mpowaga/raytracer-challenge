@@ -1,5 +1,5 @@
 use cucumber::{given, then, when, World as _};
-use raytracer::tuples::{point, vector, color, Tuple};
+use raytracer::tuples::{color, point, vector, Tuple};
 use std::collections::HashMap;
 
 #[derive(cucumber::World, Debug, Default)]
