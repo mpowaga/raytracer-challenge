@@ -260,7 +260,15 @@ fn check_color_addition(world: &mut World, n1: String, n2: String, r: f64, g: f6
     let c1 = *world.t.get(&n1).unwrap();
     let c2 = *world.t.get(&n2).unwrap();
 
-    assert!(c1 + c2 == color(r, g, b));
+    assert!((c1 + c2).approx_eq(&color(r, g, b), 1e-5));
+}
+
+#[then(expr = "{word} - {word} = color\\({float}, {float}, {float})")]
+fn check_color_subtraction(world: &mut World, n1: String, n2: String, r: f64, g: f64, b: f64) {
+    let c1 = *world.t.get(&n1).unwrap();
+    let c2 = *world.t.get(&n2).unwrap();
+
+    assert!((c1 - c2).approx_eq(&color(r, g, b), 1e-5));
 }
 
 #[then(expr = "{word} * {word} = color\\({float}, {float}, {float})")]
