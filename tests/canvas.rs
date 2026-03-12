@@ -2,7 +2,6 @@ use cucumber::{gherkin::Step, given, then, when, World as _};
 use raytracer::canvas::Canvas;
 use raytracer::tuples::{color, Tuple};
 use std::collections::HashMap;
-use std::io::{self, Write};
 
 #[derive(cucumber::World, Debug, Default)]
 struct World {

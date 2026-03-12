@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use std::ops;
 
 #[derive(Debug, Default, PartialEq, Clone, Copy)]
