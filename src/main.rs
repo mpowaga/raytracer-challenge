@@ -2,7 +2,7 @@ mod canvas;
 mod tuples;
 
 use canvas::Canvas;
-use tuples::{color};
+use tuples::color;
 
 fn main() {
     let mut canvas = Canvas::new(100, 100);
