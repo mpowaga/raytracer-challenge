@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use std::ops;
 
 #[derive(Debug, Default, PartialEq, Clone, Copy)]
@@ -22,6 +24,15 @@ pub fn vector(x: f64, y: f64, z: f64) -> Tuple {
         x: x,
         y: y,
         z: z,
+        w: 0.0,
+    }
+}
+
+pub fn color(r: f64, g: f64, b: f64) -> Tuple {
+    Tuple {
+        x: r,
+        y: g,
+        z: b,
         w: 0.0,
     }
 }
@@ -51,6 +62,25 @@ impl Tuple {
             self.z * rhs.x - self.x * rhs.z,
             self.x * rhs.y - self.y * rhs.x,
         )
+    }
+
+    pub fn red(&self) -> f64 {
+        self.x
+    }
+
+    pub fn green(&self) -> f64 {
+        self.y
+    }
+
+    pub fn blue(&self) -> f64 {
+        self.z
+    }
+
+    pub fn approx_eq(&self, rhs: &Self, epsilon: f64) -> bool {
+        (self.x - rhs.x).abs() < epsilon
+            && (self.y - rhs.y).abs() < epsilon
+            && (self.z - rhs.z).abs() < epsilon
+            && (self.w - rhs.w).abs() < epsilon
     }
 }
 
@@ -89,6 +119,19 @@ impl ops::Neg for Tuple {
             y: -self.y,
             z: -self.z,
             w: -self.w,
+        }
+    }
+}
+
+impl ops::Mul for Tuple {
+    type Output = Self;
+
+    fn mul(self, rhs: Self) -> Self {
+        Self {
+            x: self.x * rhs.x,
+            y: self.y * rhs.y,
+            z: self.z * rhs.z,
+            w: self.w * rhs.w,
         }
     }
 }
